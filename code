@@ -1,0 +1,71 @@
+import tkinter as tk
+
+class Contact:
+	def __init__(self, first_name, last_name, phone_num, email):
+		self.first_name = first_name
+		self.last_name = last_name
+		self.phone_num = phone_num
+		self.email = email
+
+
+def get_new_contact():
+	first_name = e_first_name.get()
+	last_name = e_last_name.get()
+	phone_num = e_phone_num.get()
+	email = e_email.get()
+	c = Contact(first_name, last_name, phone_num, email)
+	L = ["Contact:\n", f'First Name: {c.first_name}\n', f'Last Name: {c.last_name}\n', f'Phone Number: {c.phone_num}\n', f'E-mail: {c.email}\n\n']
+	return L
+
+def write_to_file():
+	new_contact = get_new_contact()
+	contact_sheet = open("Contact Sheet.txt","a")
+	contact_sheet.writelines(new_contact)
+	contact_sheet.close()
+
+def open_contacts():
+	contact_sheet = open("Contact Sheet.txt","r")
+	stuff = contact_sheet.read()
+	my_text.insert(tk.END, stuff)
+	contact_sheet.close()
+
+
+def deleteContent(pfile):
+    pfile.seek(0)
+    pfile.truncate()
+
+#GUI CODE
+root = tk.Tk()
+root.title("Contacts")
+root.geometry("400x400")
+
+#LABELS
+l_first_name = tk.Label(root, text = "First Name:" )
+l_first_name.place(x = 20, y = 20)
+l_last_name = tk.Label(root, text = "Last Name:")
+l_last_name.place(x = 20, y = 50)
+l_phone_num = tk.Label(root, text = "Phone Number:")
+l_phone_num.place(x = 20, y = 80)
+l_email = tk.Label(root, text = "E-mail:")
+l_email.place(x = 20, y = 110)
+
+#ENTRIES
+e_first_name = tk.Entry(root, bd = 5)
+e_first_name.place(x = 120, y = 20)
+e_last_name = tk.Entry(root, bd = 5)
+e_last_name.place(x = 120, y = 50)
+e_phone_num = tk.Entry(root, bd = 5)
+e_phone_num.place(x = 120, y = 80)
+e_email = tk.Entry(root, bd = 5)
+e_email.place(x = 120, y = 110)
+
+#BUTTONS
+b_add_contact = tk.Button(root, text = "Add Contact", command = write_to_file, width = 20, height = 1)
+b_add_contact.place(x = 45, y = 150)
+b_show_contacts = tk.Button(root, text = "Show Contacts", command = open_contacts, width = 20, height = 1)
+b_show_contacts.place(x = 200, y = 150)
+
+my_text = tk.Text(root, width = 40, height = 10)
+my_text.place(x = 35, y = 200)
+
+root.mainloop()
